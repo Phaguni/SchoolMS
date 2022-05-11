@@ -1,0 +1,123 @@
+<!-- TITLE -->
+<div class="mb-40 mt-40">
+    <h1>Student List</h1>
+</div>
+
+<!-- SEARCH FORM -->
+<div class="card">
+
+    <div class="card-header">
+        <i class="fa fa-search"></i> Search
+    </div>
+    <div class="card-body">
+        <form #searchForm="ngForm">
+            <div class="row justify-content-md-center">
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <label for="class">Class</label>
+                        <input type="number" class="form-control" id="class" [(ngModel)]="search.class" name="class" #class="ngModel">
+                    </div>
+                    <div class="form-group">
+                        <label for="dob">Dob</label>
+                        <input type="date" class="form-control" id="dob" [(ngModel)]="search.dob" name="dob" #dob="ngModel">
+                    </div>
+                    <div class="form-group">
+                        <label for="fathersname">Fathersname</label>
+                        <input type="text" class="form-control" id="fathersname" [(ngModel)]="search.fathersname" name="fathersname" #fathersname="ngModel">
+                    </div>
+                    <div class="form-group">
+                        <label for="mothersname">Mothersname</label>
+                        <input type="text" class="form-control" id="mothersname" [(ngModel)]="search.mothersname" name="mothersname" #mothersname="ngModel">
+                    </div>
+                    <div class="form-group">
+                        <label for="percentinlastexam">Percentinlastexam</label>
+                        <input type="text" class="form-control" id="percentinlastexam" [(ngModel)]="search.percentinlastexam" name="percentinlastexam" #percentinlastexam="ngModel">
+                    </div>
+                    <div class="form-group">
+                        <label for="rollno">Rollno</label>
+                        <input type="text" class="form-control" id="rollno" [(ngModel)]="search.rollno" name="rollno" #rollno="ngModel">
+                    </div>
+                    <div class="form-group">
+                        <label for="studentname">Studentname</label>
+                        <input type="text" class="form-control" id="studentname" [(ngModel)]="search.studentname" name="studentname" #studentname="ngModel">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- TABLE -->
+<table class="table mt-40">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">class</th>
+            <th scope="col">dob</th>
+            <th scope="col">fathersname</th>
+            <th scope="col">mothersname</th>
+            <th scope="col">percentinlastexam</th>
+            <th scope="col">rollno</th>
+            <th scope="col">studentname</th>
+            <th>Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of list | search: { 'class': search.class, 'dob': search.dob, 'fathersname': search.fathersname, 'mothersname': search.mothersname, 'percentinlastexam': search.percentinlastexam, 'rollno': search.rollno, 'studentname': search.studentname }">
+            <!-- ATTRIBUTES -->
+            <td>
+                <a [routerLink]="['/students/', item._id]">{{item._id}}</a>
+            </td>
+            <td>{{item.class }}</td>
+            <td>{{item.dob | date }}</td>
+            <td>{{item.fathersname }}</td>
+            <td>{{item.mothersname }}</td>
+            <td>{{item.percentinlastexam }}</td>
+            <td>{{item.rollno }}</td>
+            <td>{{item.studentname }}</td>
+
+            <!-- DELETE BUTTON -->
+            <td>
+                <button class="btn btn-danger text-center" data-toggle="modal" data-target="#deleteModal" (click)="selectId(item._id)">
+                    <span>
+                        <i class="fa fa-trash"></i>
+                    </span>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+    <div class="no-result" *ngIf="(list | search: {   'class': search.class ,  'dob': search.dob ,  'fathersname': search.fathersname ,  'mothersname': search.mothersname ,  'percentinlastexam': search.percentinlastexam ,  'rollno': search.rollno ,  'studentname': search.studentname  }).length == 0">
+        No items found
+    </div>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    <i class="fa fa-times-circle"></i>&nbsp;&nbsp;Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Do you want remove item?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteItem()">YES</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BUTTON -->
+<button class="btn btn-primary text-center pull-right mb-20" routerLink="/students/new">
+    <span>
+        <i class="fa fa-plus"></i>
+    </span>
+</button>
+
+<div class="clearfix"></div>

@@ -1,0 +1,147 @@
+<!-- TITLE -->
+<div class="mb-40 mt-40">
+    <h1>Exam List</h1>
+</div>
+
+<!-- SEARCH FORM -->
+<div class="card">
+
+    <div class="card-header">
+        <i class="fa fa-search"></i> Search
+    </div>
+    <div class="card-body">
+        <form #searchForm="ngForm">
+            <div class="row justify-content-md-center">
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <label for="averageresult">Averageresult</label>
+                        <input type="text" class="form-control" id="averageresult" [(ngModel)]="search.averageresult" name="averageresult" #averageresult="ngModel">
+                    </div>
+                    <div class="form-group">
+                        <label for="class">Class</label>
+                        <input type="number" class="form-control" id="class" [(ngModel)]="search.class" name="class" #class="ngModel">
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" class="form-control" id="date" [(ngModel)]="search.date" name="date" #date="ngModel">
+                    </div>
+                    <div class="form-group ">
+                        <input type="checkbox" [(ngModel)]="search.done" name="done">
+                        <label>Done</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="examname">Examname</label>
+                        <input type="text" class="form-control" id="examname" [(ngModel)]="search.examname" name="examname" #examname="ngModel">
+                    </div>
+                    <div class="form-group">
+                        <label for="maxmarks">Maxmarks</label>
+                        <input type="number" class="form-control" id="maxmarks" [(ngModel)]="search.maxmarks" name="maxmarks" #maxmarks="ngModel">
+                    </div>
+                    <div class="form-group">
+                        <label for="roomno">Roomno</label>
+                        <input type="text" class="form-control" id="roomno" [(ngModel)]="search.roomno" name="roomno" #roomno="ngModel">
+                    </div>
+                    <div class="form-group">
+                        <label for="session">Session</label>
+                        <input type="date" class="form-control" id="session" [(ngModel)]="search.session" name="session" #session="ngModel">
+                    </div>
+                    <div class="form-group">
+                        <label for="subjectname">Subjectname</label>
+                        <input type="text" class="form-control" id="subjectname" [(ngModel)]="search.subjectname" name="subjectname" #subjectname="ngModel">
+                    </div>
+                    <div class="form-group">
+                        <label for="teachername">Teachername</label>
+                        <input type="text" class="form-control" id="teachername" [(ngModel)]="search.teachername" name="teachername" #teachername="ngModel">
+                    </div>
+                    <div class="form-group">
+                        <label for="timing">Timing</label>
+                        <input type="text" class="form-control" id="timing" [(ngModel)]="search.timing" name="timing" #timing="ngModel">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- TABLE -->
+<table class="table mt-40">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">averageresult</th>
+            <th scope="col">class</th>
+            <th scope="col">date</th>
+            <th scope="col">done</th>
+            <th scope="col">examname</th>
+            <th scope="col">maxmarks</th>
+            <th scope="col">roomno</th>
+            <th scope="col">session</th>
+            <th scope="col">subjectname</th>
+            <th scope="col">teachername</th>
+            <th scope="col">timing</th>
+            <th>Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of list | search: { 'averageresult': search.averageresult, 'class': search.class, 'date': search.date, 'done': search.done, 'examname': search.examname, 'maxmarks': search.maxmarks, 'roomno': search.roomno, 'session': search.session, 'subjectname': search.subjectname, 'teachername': search.teachername, 'timing': search.timing }">
+            <!-- ATTRIBUTES -->
+            <td>
+                <a [routerLink]="['/exams/', item._id]">{{item._id}}</a>
+            </td>
+            <td>{{item.averageresult }}</td>
+            <td>{{item.class }}</td>
+            <td>{{item.date | date }}</td>
+            <td>{{item.done }}</td>
+            <td>{{item.examname }}</td>
+            <td>{{item.maxmarks }}</td>
+            <td>{{item.roomno }}</td>
+            <td>{{item.session | date }}</td>
+            <td>{{item.subjectname }}</td>
+            <td>{{item.teachername }}</td>
+            <td>{{item.timing }}</td>
+
+            <!-- DELETE BUTTON -->
+            <td>
+                <button class="btn btn-danger text-center" data-toggle="modal" data-target="#deleteModal" (click)="selectId(item._id)">
+                    <span>
+                        <i class="fa fa-trash"></i>
+                    </span>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+    <div class="no-result" *ngIf="(list | search: {   'averageresult': search.averageresult ,  'class': search.class ,  'date': search.date ,  'done': search.done ,  'examname': search.examname ,  'maxmarks': search.maxmarks ,  'roomno': search.roomno ,  'session': search.session ,  'subjectname': search.subjectname ,  'teachername': search.teachername ,  'timing': search.timing  }).length == 0">
+        No items found
+    </div>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    <i class="fa fa-times-circle"></i>&nbsp;&nbsp;Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Do you want remove item?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteItem()">YES</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BUTTON -->
+<button class="btn btn-primary text-center pull-right mb-20" routerLink="/exams/new">
+    <span>
+        <i class="fa fa-plus"></i>
+    </span>
+</button>
+
+<div class="clearfix"></div>
